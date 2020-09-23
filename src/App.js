@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useCallback } from 'react';
+import {inject, observer} from "mobx-react";
+import TextField from '@material-ui/core/TextField';
+import { debounce } from 'lodash';
 import './App.css';
 
-function App() {
+
+function App({store: {setSearchString}}) {
+const [search, setSearch] = useState('');
+
+const debouncedCall = useCallback(debounce(setSearchString, 3000),[]);
+
+const handleChange = (e) => {
+    const {target: { value }} = e;
+    setSearch(value)
+    debouncedCall(value)
+}
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <TextField
+            value={search}
+            onChange={handleChange}
+        />
       </header>
     </div>
   );
 }
 
-export default App;
+export default inject('store')(observer(App))
