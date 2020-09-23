@@ -8,7 +8,7 @@ import './App.css';
 function App({store: {setSearchString}}) {
 const [search, setSearch] = useState('');
 
-const debouncedCall = useCallback(debounce(setSearchString, 3000),[]);
+const debouncedCall = useCallback(debounce(setSearchString, 500),[]);
 
 const handleChange = (e) => {
     const {target: { value }} = e;

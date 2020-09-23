@@ -1,14 +1,20 @@
-import {observable, action, computed, decorate} from "mobx";
+import {observable, action, computed, decorate, autorun} from "mobx";
 import axios from 'axios';
 
 class Store {
+    constructor() {
+        autorun(() => {
+            this.searchForMovies(this.search)
+        })
+    }
     results = [];
-    search = 'batm';
+    search = '';
     isLoading = false;
+
+
 
     setSearchString = (search) => {
         this.search = search
-        console.log('search = ', search)
     }
 
     searchForMovies = async searchString => {
