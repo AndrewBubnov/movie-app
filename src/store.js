@@ -7,11 +7,9 @@ class Store {
             this.searchForMovies(this.search)
         })
     }
-    results = [];
+    movies = [];
     search = '';
     isLoading = false;
-
-
 
     setSearchString = (search) => {
         this.search = search
@@ -24,15 +22,15 @@ class Store {
             const { totalResults } = data;
             if (totalResults > 10) {
                 this.isLoading = true;
-                this.results = this.results.concat(data.Search)
+                this.movies = this.movies.concat(data.Search)
                 let page = 2;
                 while (page <= Math.ceil(totalResults /10)) {
                     const pageData = await axios.get(`http://www.omdbapi.com/?apikey=8b47da7b&s=${searchString}&page=${page}`);
-                    this.results = this.results.concat(pageData.data.Search)
+                    this.movies = this.movies.concat(pageData.data.Search)
                     page++;
                 }
                 this.isLoading = false;
-                console.log(this.results)
+                console.log(this.movies)
             }
         }
     }

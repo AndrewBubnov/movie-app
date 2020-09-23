@@ -1,30 +1,20 @@
-import React, { useState, useCallback } from 'react';
-import {inject, observer} from "mobx-react";
-import TextField from '@material-ui/core/TextField';
-import { debounce } from 'lodash';
+import React from 'react';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import HomePage from "./components/HomePage";
 import './App.css';
+import MoviesList from "./components/MoviesList";
 
 
-function App({store: {setSearchString}}) {
-const [search, setSearch] = useState('');
 
-const debouncedCall = useCallback(debounce(setSearchString, 500),[]);
-
-const handleChange = (e) => {
-    const {target: { value }} = e;
-    setSearch(value)
-    debouncedCall(value)
-}
+function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <TextField
-            value={search}
-            onChange={handleChange}
-        />
-      </header>
-    </div>
+      <Router basename={`/`}>
+          <Switch>
+              <Route exact path="/" component={HomePage} />
+              <Route exact path="/list" component={MoviesList} />
+          </Switch>
+      </Router>
   );
 }
 
-export default inject('store')(observer(App))
+export default App;
