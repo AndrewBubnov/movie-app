@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import HomePage from "./components/HomePage";
 import MoviesList from "./components/MoviesList";
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
+import Movie from "./components/Movie";
 // import './App.css';
 
 
@@ -19,6 +20,7 @@ function App() {
                         <Switch location={location}>
                             <Route exact path="/" component={HomePage}/>
                             <Route exact path="/list" component={MoviesList}/>
+                            <Route exact path="/movie" component={Movie}/>
                         </Switch>
                     </CSSTransition>
                 </TransitionGroup>

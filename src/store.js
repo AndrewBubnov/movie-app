@@ -13,6 +13,9 @@ class Store {
                 } else {
                     this.searchForMovies(this.search)
                 }
+                if (this.id) {
+                    this.getMovie(this.id)
+                }
             }
         })
     }
@@ -20,15 +23,19 @@ class Store {
     movies = [];
     movie = null;
     search = '';
+    id = null;
     noResult = false;
 
     setSearchString = (search) => {
         this.search = search
     }
 
+    setMovieId = (id) => {
+        this.id = id
+    }
+
     getMovie = async id => {
         const movieData = await axios.get(`http://www.omdbapi.com/?apikey=8b47da7b&i=${id}`);
-        console.log('movieData  = ', movieData)
         this.movie = movieData.data;
         console.log(this.movie)
     }
@@ -58,9 +65,11 @@ class Store {
 decorate(Store, {
     movies: observable,
     search: observable,
+    id: observable,
     noResult: observable,
     searchForMovies: action,
     setSearchString: action,
+    setMovieId: action,
     getMovie: action,
 });
 export default new Store();
