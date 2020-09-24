@@ -11,7 +11,13 @@ const List = ({store: {movies, noResult}}) => {
             {noResult ? (
                 <div>No results found</div>
             ) : (
-                <div>{moviesList}</div>
+                <>
+                    {!!movies.length && (
+                        <div>{`${movies.length} results found`}</div>
+                    )}
+                    <br/>
+                    <div>{moviesList}</div>
+                </>
             )}
         </div>
     )

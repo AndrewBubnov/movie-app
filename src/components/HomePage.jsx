@@ -14,17 +14,19 @@ import {setParcedUrlSearch} from "../helpers/helpers";
 const HomePage = ({store: {setSearchString}}) => {
     const [search, setSearch] = useState('');
     const [mouseDownTime, setMouseDownTime] = useState(null);
-    const [isLifeSearchActive, setIsLifeSearchActive] = useState(false);
+    const [isLiveSearchActive, setIsLiveSearchActive] = useState(false);
     const { push } = useHistory();
 
     const debouncedSearch = useCallback(debounce(setSearchString, 500),[]);
 
-    setParcedUrlSearch(setSearchString);
+    if (!isLiveSearchActive) {
+        setParcedUrlSearch(setSearchString);
+    }
 
     const handleChange = (e) => {
         const {target: { value }} = e;
         setSearch(value);
-        if (isLifeSearchActive) {
+        if (isLiveSearchActive) {
             debouncedSearch(value)
         }
     }
@@ -35,7 +37,7 @@ const HomePage = ({store: {setSearchString}}) => {
 
     const handleMouseUp = () => {
         if (Date.now() - mouseDownTime >= 300) {
-            setIsLifeSearchActive(prevState => !prevState);
+            setIsLiveSearchActive(prevState => !prevState);
         }
         setMouseDownTime(null);
     }
@@ -46,7 +48,7 @@ const HomePage = ({store: {setSearchString}}) => {
 
     return (
         <div className="App">
-                <p>Long tap to switch search and life search</p>
+                <p>Long tap to switch search and live search</p>
                 <TextField
                     value={search}
                     onChange={handleChange}
@@ -55,9 +57,8 @@ const HomePage = ({store: {setSearchString}}) => {
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
-                                {!isLifeSearchActive && (
+                                {!isLiveSearchActive && (
                                     <IconButton
-                                        // className={classes.eye}
                                         onClick={handleSearch}
                                     >
                                         <SearchIcon />
@@ -67,10 +68,10 @@ const HomePage = ({store: {setSearchString}}) => {
                         ),
                     }}
                 />
-            {isLifeSearchActive ? (
-                <p>Life search enabled</p>
+            {isLiveSearchActive ? (
+                <p>Live search enabled</p>
             ) : (
-                <p>Life search disabled</p>
+                <p>Live search disabled</p>
             )}
             <List />
         </div>
