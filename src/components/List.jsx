@@ -1,10 +1,13 @@
 import React from 'react';
 import {inject, observer} from "mobx-react";
 
-const List = ({store: {movies, noResult}}) => {
+const List = ({store: {movies, noResult, getMovie}}) => {
 
     const moviesList = movies.map(item => (
-        <div key={item.imdbID}>{item.Title}</div>
+        <div
+            key={item.imdbID}
+            onClick={() => getMovie(item.imdbID)}
+        >{item.Title}</div>
     ))
     return (
         <div className="App">
