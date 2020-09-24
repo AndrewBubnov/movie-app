@@ -42,8 +42,14 @@ const HomePage = ({store: {setSearchString}}) => {
         setMouseDownTime(null);
     }
 
-    const handleSearch = () => {
+    const handleSearchPress = () => {
         push(`/list?s=${search}`);
+    }
+
+    const handleKeyUp = (e) => {
+        if (e.keyCode === 13) {
+            handleSearchPress();
+        }
     }
 
     return (
@@ -54,12 +60,13 @@ const HomePage = ({store: {setSearchString}}) => {
                     onChange={handleChange}
                     onMouseDown={handleMouseDown}
                     onMouseUp={handleMouseUp}
+                    onKeyUp={handleKeyUp}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
                                 {!isLiveSearchActive && (
                                     <IconButton
-                                        onClick={handleSearch}
+                                        onClick={handleSearchPress}
                                     >
                                         <SearchIcon />
                                     </IconButton>
