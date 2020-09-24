@@ -7,7 +7,7 @@ const List = ({store: {movies, noResult}}) => {
         <div key={item.imdbID}>{item.Title}</div>
     ))
     return (
-        <div>
+        <div className="App">
             {noResult ? (
                 <div>No results found</div>
             ) : (
