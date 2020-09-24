@@ -34,8 +34,6 @@ class Store {
     }
 
     searchForMovies = async searchString => {
-
-
         const initialRawData = await axios.get(`http://www.omdbapi.com/?apikey=8b47da7b&s=${searchString}`);
         const {data} = initialRawData;
         if (!data.Error) {
