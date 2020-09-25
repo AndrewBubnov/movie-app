@@ -7,24 +7,18 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import {debounce} from "lodash";
 import List from "./List";
-import {setParcedUrlSearch} from "../helpers/helpers";
-
 
 
 const HomePage = ({store: {setSearchString}}) => {
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState(localStorage.getItem('search') || '');
     const [mouseDownTime, setMouseDownTime] = useState(null);
     const [isLiveSearchActive, setIsLiveSearchActive] = useState(false);
-    const { push } = useHistory();
+    const {push} = useHistory();
 
-    const debouncedSearch = useCallback(debounce(setSearchString, 500),[]);
-
-    if (!isLiveSearchActive) {
-        setParcedUrlSearch(setSearchString);
-    }
+    const debouncedSearch = useCallback(debounce(setSearchString, 500), []);
 
     const handleChange = (e) => {
-        const {target: { value }} = e;
+        const {target: {value}} = e;
         setSearch(value);
         if (isLiveSearchActive) {
             debouncedSearch(value)
@@ -38,12 +32,14 @@ const HomePage = ({store: {setSearchString}}) => {
     const handleMouseUp = () => {
         if (Date.now() - mouseDownTime >= 300) {
             setIsLiveSearchActive(prevState => !prevState);
+            setSearchString(search);
         }
         setMouseDownTime(null);
     }
 
     const handleSearchPress = () => {
-        push(`/list?s=${search}`);
+        setSearchString(search);
+        push(`/list`);
     }
 
     const handleKeyUp = (e) => {
@@ -54,33 +50,36 @@ const HomePage = ({store: {setSearchString}}) => {
 
     return (
         <div className="App">
-                <p>Long tap to switch search and live search</p>
-                <TextField
-                    value={search}
-                    onChange={handleChange}
-                    onMouseDown={handleMouseDown}
-                    onMouseUp={handleMouseUp}
-                    onKeyUp={handleKeyUp}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                {!isLiveSearchActive && (
-                                    <IconButton
-                                        onClick={handleSearchPress}
-                                    >
-                                        <SearchIcon />
-                                    </IconButton>
-                                )}
-                            </InputAdornment>
-                        ),
-                    }}
-                />
+            <p>Long tap to switch search and live search</p>
+            <TextField
+                value={search}
+                onChange={handleChange}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onKeyUp={handleKeyUp}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            {!isLiveSearchActive && (
+                                <IconButton
+                                    onClick={handleSearchPress}
+                                >
+                                    <SearchIcon/>
+                                </IconButton>
+                            )}
+                        </InputAdornment>
+                    ),
+                }}
+            />
             {isLiveSearchActive ? (
-                <p>Live search enabled</p>
+                <>
+                    <p>Live search enabled</p>
+                    <List/>
+                </>
             ) : (
                 <p>Live search disabled</p>
             )}
-            <List />
+
         </div>
     )
 }

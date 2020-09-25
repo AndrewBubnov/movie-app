@@ -1,9 +1,10 @@
 import React from 'react';
 import {inject, observer} from "mobx-react";
 import Pagination from '@material-ui/lab/Pagination';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {useHistory} from 'react-router-dom';
 
-const List = ({store: {movies, noResult, search, page, setPage, moviesNumber}}) => {
+const List = ({store: {movies, error, search, page, setPage, moviesNumber, isLoading}}) => {
 
     const {push} = useHistory();
 
@@ -25,8 +26,10 @@ const List = ({store: {movies, noResult, search, page, setPage, moviesNumber}}) 
 
     return (
         <div className="App">
-            {noResult ? (
-                <div>No results found</div>
+            { isLoading ? (
+                <CircularProgress style={{color: 'tomato'}}/>
+            ) : error ? (
+                <div>{error}</div>
             ) : (
                 <>
                     {!!moviesNumber && (

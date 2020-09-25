@@ -6,13 +6,12 @@ class Store {
     constructor() {
         autorun(() => {
             this.movies = [];
+            this.search = localStorage.getItem('search')
             if (this.search) {
                     this.getMovies(this.search)
                 if (this.id) {
                     this.getMovie(this.id)
                 }
-            } else {
-                this.moviesNumber = 0;
             }
         })
     }
@@ -23,10 +22,12 @@ class Store {
     moviesNumber = 0;
     search = '';
     id = null;
-    noResult = false;
+    error = '';
+    isLoading = false;
 
     setSearchString = (search) => {
-        this.search = search
+        this.search = search;
+        localStorage.setItem('search', search);
     }
 
     setMovieId = (id) => {
@@ -45,14 +46,21 @@ class Store {
     }
 
     getMovies = async () => {
-        const initialRawData = await axios.get(`http://www.omdbapi.com/?apikey=8b47da7b&s=${this.search}&page=${this.page}`);
-        const {data} = initialRawData;
-        if (!data.Error) {
-            this.noResult = false;
-            this.moviesNumber = data.totalResults;
-            this.movies = data.Search;
-        } else {
-            this.noResult = true;
+        this.isLoading = true;
+        try {
+            const initialRawData = await axios
+                .get(`http://www.omdbapi.com/?apikey=8b47da7b&s=${this.search}&page=${this.page}`);
+            const {data} = initialRawData;
+            if (!data.Error) {
+                this.error = '';
+                this.moviesNumber = data.totalResults;
+                this.movies = data.Search;
+            } else {
+                this.error = data.Error;
+            }
+            this.isLoading = false;
+        } catch (e) {
+           this.error = e;
         }
     }
 }
@@ -61,9 +69,10 @@ decorate(Store, {
     movies: observable,
     search: observable,
     id: observable,
-    noResult: observable,
+    error: observable,
     moviesNumber: observable,
     page: observable,
+    isLoading: observable,
     getMovies: action,
     setSearchString: action,
     setMovieId: action,
