@@ -5,8 +5,9 @@ import {makeStyles} from "@material-ui/core/styles";
 
 
 const CustomPagination = ({moviesNumber, page, handleChangePage}) => {
-console.log('pagination')
+
     const classes = useStyles();
+
     return (
         <Pagination
             count={Math.ceil(moviesNumber / 10)}

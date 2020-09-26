@@ -28,7 +28,7 @@ const List = ({store: {movies, error, search, page, setPage, moviesNumber, isLoa
         ))
 
     return (
-        <div className="App">
+        <>
             <div
                 className='list-wrapper'
                 style={{justifyContent: isLoading ? 'center' : 'space-between'}}
@@ -55,7 +55,7 @@ const List = ({store: {movies, error, search, page, setPage, moviesNumber, isLoa
                     page={page}
                 />
             )}
-        </div>
+        </>
     )
 }
 

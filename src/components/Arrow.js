@@ -19,8 +19,16 @@ const Arrow = ({direction}) => {
             routes[Number(routeKey) - 1]
             : undefined
 
+    const handleClick = () => {
+        if (nextRoute) {
+            push(nextRoute)
+        }
+    }
+    console.log('Arrow')
+
+
     return (
-        <div onClick={() => push(nextRoute)}>
+        <div onClick={handleClick}>
             {direction === 'next' ? (
                 <img src={arrowNext} alt=""/>
             ) : (

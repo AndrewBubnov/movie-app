@@ -58,6 +58,11 @@ const HomePage = ({store: {setSearchString}}) => {
                 onMouseDown={handleMouseDown}
                 onMouseUp={handleMouseUp}
                 onKeyUp={handleKeyUp}
+                variant="outlined"
+                style={{
+                    backgroundColor: "#fff",
+                    borderRadius: 5,
+                }}
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="end">
@@ -80,7 +85,10 @@ const HomePage = ({store: {setSearchString}}) => {
             ) : (
                 <p>Live search disabled</p>
             )}
-<Arrow direction='next' />
+            <div className='arrows-wrapper one-arrow'>
+                <Arrow direction='next' />
+            </div>
+
         </div>
     )
 }

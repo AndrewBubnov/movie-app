@@ -33,6 +33,17 @@ code {
   height: 550px;
   margin-bottom: 10px;
 }
+.arrows-wrapper {
+  display: flex;
+  padding: 0 80px;
+  cursor: pointer;
+}
+.one-arrow {
+  justify-content: flex-end;
+}
+.two-arrow {
+  justify-content: space-between;
+}
 .fade-appear,
 .fade-enter {
   opacity: 0;
