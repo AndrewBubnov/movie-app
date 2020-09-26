@@ -29,6 +29,9 @@ const CustomPagination = ({moviesNumber, page, handleChangePage}) => {
 const useStyles = makeStyles({
     root: {
         color: '#878787',
+        '&.Mui-selected': {
+            background: '#8787878c'
+        },
     },
 });
 

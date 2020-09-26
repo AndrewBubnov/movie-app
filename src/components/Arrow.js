@@ -28,9 +28,9 @@ const Arrow = ({direction}) => {
     return (
         <div onClick={handleClick}>
             {direction === 'next' ? (
-                <img src={arrowNext} alt=""/>
+                <img src={arrowNext} style={{marginRight: 80}} alt=""/>
             ) : (
-                <img src={arrowPrev} alt=""/>
+                <img src={arrowPrev}  style={{marginLeft: 80}}alt=""/>
             )}
         </div>
     )

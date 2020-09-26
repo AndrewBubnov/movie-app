@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #202020;
+  font-family: Montserrat, serif;
 }
 
 code {
@@ -18,13 +20,34 @@ code {
   bottom: 0;
   top: 0;
   text-align: center;
-  background: #202020;
-  font-family: Montserrat, serif;
   font-style: normal;
   font-weight: 500;
   font-size: 36px;
   line-height: 44px;
   color: #878787;
+}
+.hero-block {
+  position: absolute;
+  top: 500px;
+  left: 300px;
+  z-index: 2;
+  text-align: left;
+}
+.main-title {
+  font-size: 64px;
+  color: #ffffff;
+  font-weight: 700;
+}
+.main-poster {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+}
+.life-search-title {
+  font-size: 18px;
 }
 .list-wrapper {
   display: flex;
@@ -34,9 +57,14 @@ code {
   margin-bottom: 10px;
 }
 .arrows-wrapper {
+  position: absolute;
   display: flex;
-  padding: 0 80px;
+  width: 100%;
   cursor: pointer;
+  z-index: 2;
+}
+.hero-block-arrows {
+  top: 400px;
 }
 .one-arrow {
   justify-content: flex-end;

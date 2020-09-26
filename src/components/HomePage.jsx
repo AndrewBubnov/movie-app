@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import {debounce} from "lodash";
 import List from "./List";
 import Arrow from "./Arrow";
+import mainPoster from '../assets/img/main_poster.jpg'
 
 
 const HomePage = ({store: {setSearchString}}) => {
@@ -51,44 +52,49 @@ const HomePage = ({store: {setSearchString}}) => {
 
     return (
         <div className="App">
-            <p>Long tap to switch search and live search</p>
-            <TextField
-                value={search}
-                onChange={handleChange}
-                onMouseDown={handleMouseDown}
-                onMouseUp={handleMouseUp}
-                onKeyUp={handleKeyUp}
-                variant="outlined"
-                style={{
-                    backgroundColor: "#fff",
-                    borderRadius: 5,
-                }}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            {!isLiveSearchActive && (
-                                <IconButton
-                                    onClick={handleSearchPress}
-                                >
-                                    <SearchIcon/>
-                                </IconButton>
-                            )}
-                        </InputAdornment>
-                    ),
-                }}
-            />
-            {isLiveSearchActive ? (
-                <>
-                    <p>Live search enabled</p>
-                    <List/>
-                </>
-            ) : (
-                <p>Live search disabled</p>
-            )}
-            <div className='arrows-wrapper one-arrow'>
+            <img src={mainPoster} className='main-poster' alt=""/>
+            <div className='arrows-wrapper one-arrow hero-block-arrows'>
                 <Arrow direction='next' />
             </div>
-
+            <div className="hero-block">
+                <p className="main-title">Explore movies & series</p>
+                <p className='life-search-title'>Long tap to activate/deactivate live search</p>
+                <TextField
+                    value={search}
+                    onChange={handleChange}
+                    onMouseDown={handleMouseDown}
+                    onMouseUp={handleMouseUp}
+                    onKeyUp={handleKeyUp}
+                    variant="outlined"
+                    placeholder='Search..'
+                    style={{
+                        backgroundColor: "#fff",
+                        borderRadius: 5,
+                        width: 540,
+                    }}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                {!isLiveSearchActive && (
+                                    <IconButton
+                                        onClick={handleSearchPress}
+                                    >
+                                        <SearchIcon/>
+                                    </IconButton>
+                                )}
+                            </InputAdornment>
+                        ),
+                    }}
+                />
+                {isLiveSearchActive ? (
+                    <>
+                        <p className='life-search-title'>Live search enabled</p>
+                        <List/>
+                    </>
+                ) : (
+                    <p className='life-search-title'>Live search disabled</p>
+                )}
+            </div>
         </div>
     )
 }
