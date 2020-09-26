@@ -44,6 +44,13 @@ class Store {
         localStorage.setItem('id', id);
     }
 
+    setActiveMovie = (id) => {
+        this.movies = this.movies.map(movie => ({
+            ...movie,
+            isActive: movie.imdbID === id,
+        }));
+    }
+
     getMovie = async id => {
         const movieData = await axios.get(`http://www.omdbapi.com/?apikey=8b47da7b&i=${id}`);
         this.movie = movieData.data;
@@ -59,7 +66,7 @@ class Store {
             if (!data.Error) {
                 this.error = '';
                 this.moviesNumber = data.totalResults;
-                this.movies = data.Search;
+                this.movies = data.Search.map(item => ({...item, isActive: false}));
             } else {
                 this.error = data.Error;
             }
@@ -85,5 +92,6 @@ decorate(Store, {
     getMovie: action,
     setPage: action,
     setId: action,
+    setActiveMovie: action,
 });
 export default new Store();

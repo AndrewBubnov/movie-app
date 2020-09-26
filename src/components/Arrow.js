@@ -24,8 +24,6 @@ const Arrow = ({direction}) => {
             push(nextRoute)
         }
     }
-    console.log('Arrow')
-
 
     return (
         <div onClick={handleClick}>
