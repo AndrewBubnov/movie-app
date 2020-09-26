@@ -7,6 +7,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import {debounce} from "lodash";
 import List from "./List";
+import Arrow from "./Arrow";
 
 
 const HomePage = ({store: {setSearchString}}) => {
@@ -79,7 +80,7 @@ const HomePage = ({store: {setSearchString}}) => {
             ) : (
                 <p>Live search disabled</p>
             )}
-
+<Arrow direction='next' />
         </div>
     )
 }

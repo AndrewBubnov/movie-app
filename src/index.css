@@ -15,7 +15,23 @@ code {
   position: absolute;
   left: 0;
   right: 0;
+  bottom: 0;
+  top: 0;
   text-align: center;
+  background: #202020;
+  font-family: Montserrat, serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 44px;
+  color: #878787;
+}
+.list-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 550px;
+  margin-bottom: 10px;
 }
 .fade-appear,
 .fade-enter {
@@ -36,3 +52,4 @@ code {
   opacity: 0;
   transition: opacity 350ms linear;
 }
+

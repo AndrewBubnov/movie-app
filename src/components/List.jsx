@@ -1,15 +1,16 @@
 import React from 'react';
 import {inject, observer} from "mobx-react";
-import Pagination from '@material-ui/lab/Pagination';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {useHistory} from 'react-router-dom';
+import CustomPagination from "./CustomPagination";
 
-const List = ({store: {movies, error, search, page, setPage, moviesNumber, isLoading}}) => {
+const List = ({store: {movies, error, search, page, setPage, moviesNumber, isLoading, setId}}) => {
 
     const {push} = useHistory();
 
     const handleClick = (id) => {
-        push(`/movie?i=${id}`)
+        setId(id);
+        push(`/movie`)
     }
 
     const handleChangePage = (_, value) => {
@@ -21,13 +22,19 @@ const List = ({store: {movies, error, search, page, setPage, moviesNumber, isLoa
             <div
                 key={item.imdbID}
                 onClick={() => handleClick(item.imdbID)}
-            >{item.Title}</div>
+            >
+                {item.Title}
+            </div>
         ))
 
     return (
         <div className="App">
+            <div
+                className='list-wrapper'
+                style={{justifyContent: isLoading ? 'center' : 'space-between'}}
+            >
             { isLoading ? (
-                <CircularProgress style={{color: 'tomato'}}/>
+                <CircularProgress style={{color: '#878787'}}/>
             ) : error ? (
                 <div>{error}</div>
             ) : (
@@ -36,20 +43,23 @@ const List = ({store: {movies, error, search, page, setPage, moviesNumber, isLoa
                         <div>{`${moviesNumber} results found for «${search}» response:`}</div>
                     )}
                     <br/>
-                    <div>{moviesList}</div>
+                    {moviesList}
                     <br/>
-                    {!!moviesNumber && (
-                        <Pagination
-                            count={Math.ceil(moviesNumber / 10)}
-                            page={page}
-                            onChange={handleChangePage}
-                            style={{width: 342, margin: 'auto'}}
-                        />
-                    )}
                 </>
+            )}
+            </div>
+            {!!moviesNumber && (
+                <CustomPagination
+                    handleChangePage={handleChangePage}
+                    moviesNumber={moviesNumber}
+                    page={page}
+                />
             )}
         </div>
     )
 }
 
+
 export default inject('store')(observer(List))
+
+

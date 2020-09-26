@@ -5,8 +5,8 @@ import axios from 'axios';
 class Store {
     constructor() {
         autorun(() => {
-            this.movies = [];
             this.search = localStorage.getItem('search')
+            this.id = localStorage.getItem('id')
             if (this.search) {
                     this.getMovies(this.search)
                 if (this.id) {
@@ -39,10 +39,15 @@ class Store {
         this.getMovies();
     }
 
+    setId = (id) => {
+        this.id = id;
+        localStorage.setItem('id', id);
+    }
+
     getMovie = async id => {
         const movieData = await axios.get(`http://www.omdbapi.com/?apikey=8b47da7b&i=${id}`);
         this.movie = movieData.data;
-        console.log(this.movie)
+        // console.log(this.movie)
     }
 
     getMovies = async () => {
@@ -67,6 +72,7 @@ class Store {
 
 decorate(Store, {
     movies: observable,
+    movie: observable,
     search: observable,
     id: observable,
     error: observable,
@@ -78,5 +84,6 @@ decorate(Store, {
     setMovieId: action,
     getMovie: action,
     setPage: action,
+    setId: action,
 });
 export default new Store();
