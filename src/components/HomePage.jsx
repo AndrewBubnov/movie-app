@@ -50,15 +50,16 @@ const HomePage = ({store: {setSearchString}}) => {
         }
     }
 
+    const liveSearchAnnounce = `long tap to activate/deactivate live search: ${isLiveSearchActive ?
+        'live search enabled'
+        : 'live search disabled'}`
+
     return (
         <div className="App">
             <img src={mainPoster} className='main-poster' alt=""/>
-            <div className='arrows-wrapper one-arrow hero-block-arrows'>
-                <Arrow direction='next' />
-            </div>
+                <Arrow direction='next' top={400}/>
             <div className="hero-block">
                 <p className="main-title">Explore movies & series</p>
-                <p className='life-search-title'>Long tap to activate/deactivate live search</p>
                 <TextField
                     value={search}
                     onChange={handleChange}
@@ -86,13 +87,9 @@ const HomePage = ({store: {setSearchString}}) => {
                         ),
                     }}
                 />
-                {isLiveSearchActive ? (
-                    <>
-                        <p className='life-search-title'>Live search enabled</p>
+                <p className='life-search-title'>{liveSearchAnnounce}</p>
+                {isLiveSearchActive && (
                         <List/>
-                    </>
-                ) : (
-                    <p className='life-search-title'>Live search disabled</p>
                 )}
             </div>
         </div>

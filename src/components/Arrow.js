@@ -9,7 +9,7 @@ const routes = {
     '2': '/movie',
 };
 
-const Arrow = ({direction}) => {
+const Arrow = ({direction, top}) => {
     const {pathname} = useLocation();
     const {push} = useHistory();
     const routeKey = Object.keys(routes).find(key => routes[key] === pathname);
@@ -28,9 +28,9 @@ const Arrow = ({direction}) => {
     return (
         <div onClick={handleClick}>
             {direction === 'next' ? (
-                <img src={arrowNext} style={{marginRight: 80}} alt=""/>
+                <img src={arrowNext} className='arrow next-arrow' style={{top}} alt=""/>
             ) : (
-                <img src={arrowPrev}  style={{marginLeft: 80}}alt=""/>
+                <img src={arrowPrev} className='arrow previous-arrow' style={{top}} alt=""/>
             )}
         </div>
     )

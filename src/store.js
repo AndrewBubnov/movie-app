@@ -8,7 +8,8 @@ class Store {
             this.search = localStorage.getItem('search')
             this.id = localStorage.getItem('id')
             if (this.search) {
-                    this.getMovies(this.search)
+                this.moviesNumber = 0;
+                this.getMovies(this.search)
                 if (this.id) {
                     this.getMovie(this.id)
                 }
@@ -18,7 +19,7 @@ class Store {
 
     movies = [];
     movie = null;
-    page = 1;
+    page = +localStorage.getItem('page') || 1;
     moviesNumber = 0;
     search = '';
     id = null;
@@ -36,6 +37,7 @@ class Store {
 
     setPage = (page) => {
         this.page = page;
+        localStorage.setItem('page', page);
         this.getMovies();
     }
 
@@ -49,12 +51,14 @@ class Store {
             ...movie,
             isActive: movie.imdbID === id,
         }));
+        localStorage.setItem('activeId', id);
     }
 
     getMovie = async id => {
+        this.isLoading = true;
         const movieData = await axios.get(`http://www.omdbapi.com/?apikey=8b47da7b&i=${id}`);
         this.movie = movieData.data;
-        // console.log(this.movie)
+        this.isLoading = false;
     }
 
     getMovies = async () => {
@@ -66,13 +70,14 @@ class Store {
             if (!data.Error) {
                 this.error = '';
                 this.moviesNumber = data.totalResults;
-                this.movies = data.Search.map(item => ({...item, isActive: false}));
+                const activeId = localStorage.getItem('activeId');
+                this.movies = data.Search.map(item => ({...item, isActive: item.imdbID === activeId}));
             } else {
                 this.error = data.Error;
             }
             this.isLoading = false;
         } catch (e) {
-           this.error = e;
+            this.error = e;
         }
     }
 }
