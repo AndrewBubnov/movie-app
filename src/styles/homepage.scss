@@ -1,0 +1,26 @@
+.hero-block {
+  position: absolute;
+  top: 500px;
+  left: 300px;
+  z-index: 2;
+  text-align: left;
+}
+
+.main-title {
+  font-size: 64px;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.main-poster {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+}
+
+.life-search-title {
+  font-size: 18px;
+}

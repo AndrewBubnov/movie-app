@@ -1,0 +1,41 @@
+.movie {
+  display: flex;
+  color: #ffffff;
+  padding: 30px;
+
+  & .movie-block {
+    text-align: left;
+
+    & .movie-title {
+      font-size: 48px;
+      font-weight: 700;
+      margin-top: 50px;
+    }
+
+    & .imdb {
+      font-size: 36px;
+      font-weight: 700;
+    }
+
+    & .poster {
+      display: block;
+      height: 530px;
+      max-width: 500px;
+      object-fit: cover;
+    }
+
+    & .movie-details {
+      font-size: 24px;
+      margin-left: 140px;
+
+      & .plot {
+        width: 425px;
+        font-size: 18px;
+      }
+    }
+  }
+
+  & .movie-block:nth-child(2) {
+    margin-left: 30px;
+  }
+}

@@ -1,0 +1,70 @@
+@import "styles/movie";
+@import "styles/homepage";
+@import "styles/list";
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #202020;
+  font-family: Montserrat, serif;
+  overflow-x: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.App {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 44px;
+  color: #878787;
+
+  & .arrow {
+    position: absolute;
+    cursor: pointer;
+  }
+
+  & .next-arrow {
+    right: 0;
+    left: auto;
+    margin-right: 80px;
+  }
+
+  & .previous-arrow {
+    left: 0;
+    margin-left: 80px;
+  }
+}
+
+
+.fade-appear,
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+.fade-appear-active,
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 350ms linear 350ms;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0;
+  transition: opacity 350ms linear;
+}
+
