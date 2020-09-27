@@ -1,5 +1,4 @@
 import {observable, action, decorate, autorun} from "mobx";
-import axios from 'axios';
 
 
 class Store {
@@ -9,10 +8,10 @@ class Store {
             this.id = localStorage.getItem('id')
             if (this.search) {
                 this.moviesNumber = 0;
-                this.getMovies(this.search)
-                if (this.id) {
-                    this.getMovie(this.id)
-                }
+                this.getMovies()
+            }
+            if (this.id) {
+                this.getMovie(this.id)
             }
         })
     }
@@ -22,11 +21,15 @@ class Store {
     page = +localStorage.getItem('page') || 1;
     moviesNumber = 0;
     search = '';
-    id = null;
+    id = localStorage.getItem('id') || null;
     error = '';
     isLoading = false;
 
     setSearchString = (search) => {
+        if (search !== localStorage.getItem('search')) {
+            this.page = 1;
+            localStorage.setItem('page', '1');
+        }
         this.search = search;
         localStorage.setItem('search', search);
     }
@@ -56,29 +59,31 @@ class Store {
 
     getMovie = async id => {
         this.isLoading = true;
-        const movieData = await axios.get(`http://www.omdbapi.com/?apikey=8b47da7b&i=${id}`);
-        this.movie = movieData.data;
-        this.isLoading = false;
+        fetch(`http://www.omdbapi.com/?apikey=8b47da7b&i=${id}`)
+            .then(response => response.json())
+            .then(data => {
+                this.movie = data;
+                this.isLoading = false
+            })
+            .catch(error => this.error = error)
     }
 
     getMovies = async () => {
         this.isLoading = true;
-        try {
-            const initialRawData = await axios
-                .get(`http://www.omdbapi.com/?apikey=8b47da7b&s=${this.search}&page=${this.page}`);
-            const {data} = initialRawData;
-            if (!data.Error) {
-                this.error = '';
-                this.moviesNumber = data.totalResults;
-                const activeId = localStorage.getItem('activeId');
-                this.movies = data.Search.map(item => ({...item, isActive: item.imdbID === activeId}));
-            } else {
-                this.error = data.Error;
-            }
-            this.isLoading = false;
-        } catch (e) {
-            this.error = e;
-        }
+        fetch(`http://www.omdbapi.com/?apikey=8b47da7b&s=${this.search}&page=${this.page}`)
+            .then(response => response.json())
+            .then(data => {
+                if (!data.Error) {
+                    this.error = '';
+                    this.moviesNumber = data.totalResults;
+                    const activeId = localStorage.getItem('activeId');
+                    this.movies = data.Search.map(item => ({...item, isActive: item.imdbID === activeId}));
+                } else {
+                    this.error = data.Error;
+                }
+                this.isLoading = false;
+            })
+            .catch(error => this.error = error)
     }
 }
 

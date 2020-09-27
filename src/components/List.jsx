@@ -33,7 +33,6 @@ const List = ({
         setPage(value);
     };
 
-
     const moviesList = movies
         .map(item => (
             <div
@@ -49,6 +48,7 @@ const List = ({
                 </div>
             </div>
         ))
+
 
     return (
         <>

@@ -5,10 +5,6 @@ import ReactPlayer from "react-player"
 import Arrow from "./Arrow";
 
 const Movie = ({store: {movie, isLoading}}) => {
-    // if (!movie) {
-    //     return <div className='main-title'>Movie not found</div>
-    // }
-    // const {Title, Plot, Runtime, Genre, Type, Year, Poster, imdbRating} = movie;
 
     return (
         <div className="App">
@@ -16,7 +12,7 @@ const Movie = ({store: {movie, isLoading}}) => {
                 <CircularProgress style={{color: '#878787'}}/>
             ) : movie ? (
                 <>
-                    <Arrow direction='previous' top={300}/>
+                    <Arrow direction='previous' top={400}/>
                     {/*<ReactPlayer style={{margin: 'auto'}} url='https://www.youtube.com/watch?v=T6DJcgm3wNY' />*/}
                     <div className="movie">
                         <div className='movie-block'>

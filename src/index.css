@@ -7,6 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #202020;
   font-family: Montserrat, serif;
+  overflow-x: hidden;
 }
 
 code {
@@ -15,10 +16,8 @@ code {
 }
 .App {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
+  width: 100vw;
+  height: 100vh;
   text-align: center;
   font-style: normal;
   font-weight: 500;
