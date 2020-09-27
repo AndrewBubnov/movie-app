@@ -1,20 +1,15 @@
-import {observable, action, decorate, autorun} from "mobx";
+import {observable, action, decorate} from "mobx";
 
 
 class Store {
     constructor() {
-        autorun(() => {
-            if (this.search) {
-                this.moviesNumber = 0;
-                this.getMovies()
-            }
-            if (this.id) {
-                this.getMovie(this.id)
-            }
-        })
+        if (this.search) {
+            this.getMovies()
+        }
+        if (this.id) {
+            this.getMovie(this.id)
+        }
     }
-
-
 
     movies = [];
     movie = null;
@@ -32,6 +27,10 @@ class Store {
         }
         this.search = search;
         localStorage.setItem('search', search);
+        if (search) {
+            this.moviesNumber = 0;
+            this.getMovies()
+        }
     }
 
     setPage = (page) => {
@@ -43,6 +42,9 @@ class Store {
     setId = (id) => {
         this.id = id;
         localStorage.setItem('id', id);
+        if (id) {
+            this.getMovie(id)
+        }
     }
 
     setActiveMovie = (id) => {
