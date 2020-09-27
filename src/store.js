@@ -4,8 +4,6 @@ import {observable, action, decorate, autorun} from "mobx";
 class Store {
     constructor() {
         autorun(() => {
-            this.search = localStorage.getItem('search')
-            this.id = localStorage.getItem('id')
             if (this.search) {
                 this.moviesNumber = 0;
                 this.getMovies()
@@ -16,11 +14,13 @@ class Store {
         })
     }
 
+
+
     movies = [];
     movie = null;
     page = +localStorage.getItem('page') || 1;
     moviesNumber = 0;
-    search = '';
+    search = localStorage.getItem('search') || '';
     id = localStorage.getItem('id') || null;
     error = '';
     isLoading = false;
@@ -32,10 +32,6 @@ class Store {
         }
         this.search = search;
         localStorage.setItem('search', search);
-    }
-
-    setMovieId = (id) => {
-        this.id = id
     }
 
     setPage = (page) => {
@@ -96,10 +92,7 @@ decorate(Store, {
     moviesNumber: observable,
     page: observable,
     isLoading: observable,
-    getMovies: action,
     setSearchString: action,
-    setMovieId: action,
-    getMovie: action,
     setPage: action,
     setId: action,
     setActiveMovie: action,

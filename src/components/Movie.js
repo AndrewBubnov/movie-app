@@ -9,7 +9,7 @@ const Movie = ({store: {movie, isLoading}}) => {
     return (
         <div className="App">
             {isLoading ? (
-                <CircularProgress style={{color: '#878787'}}/>
+                <CircularProgress style={{color: '#878787', marginTop: 200}}/>
             ) : movie ? (
                 <>
                     <Arrow direction='previous' top={400}/>
