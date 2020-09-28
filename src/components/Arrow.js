@@ -1,4 +1,5 @@
 import React from 'react';
+import {inject, observer} from "mobx-react";
 import {useHistory, useLocation} from 'react-router-dom';
 import arrowNext from '../assets/img/Arrow-next.svg';
 import arrowPrev from '../assets/img/Arrow-prev.svg';
@@ -9,7 +10,7 @@ const routes = {
     '2': '/movie',
 };
 
-const Arrow = ({direction, top}) => {
+const Arrow = ({store: {search, id}, direction, top}) => {
     const {pathname} = useLocation();
     const {push} = useHistory();
     const routeKey = Object.keys(routes).find(key => routes[key] === pathname);
@@ -27,13 +28,15 @@ const Arrow = ({direction, top}) => {
 
     return (
         <div onClick={handleClick}>
-            {direction === 'next' ? (
-                <img src={arrowNext} className='arrow next-arrow' style={{top}} alt=""/>
-            ) : (
-                <img src={arrowPrev} className='arrow previous-arrow' style={{top}} alt=""/>
-            )}
+            {direction === 'next' ?
+                (pathname === routes[0] && search) || (pathname === routes[1] && id) ? (
+                    <img src={arrowNext} className='arrow next-arrow' style={{top}} alt=""/>
+                ) : null
+                : (
+                    <img src={arrowPrev} className='arrow previous-arrow' style={{top}} alt=""/>
+                )}
         </div>
     )
 }
 
-export default Arrow
+export default inject('store')(observer(Arrow))
