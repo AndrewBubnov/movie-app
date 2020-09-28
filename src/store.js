@@ -1,4 +1,4 @@
-import {observable, action, decorate, reaction, toJS} from "mobx";
+import { observable, action, decorate, reaction } from "mobx";
 
 
 class Store {

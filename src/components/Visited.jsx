@@ -8,7 +8,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 
-
 const Visited = ({store: {visited, setId}}) => {
 
     const {push} = useHistory();
@@ -25,23 +24,27 @@ const Visited = ({store: {visited, setId}}) => {
     const classes = useStyles();
 
     return (
-        <FormControl className={classes.formControl}>
-            <InputLabel shrink={false} className={classes.inputLabel}>Last visited</InputLabel>
-            <Select
-                disableUnderline
-                onChange={handleChange}
-                value=''
-                inputProps={{
-                    classes: {
-                        root: classes.select,
-                        icon: classes.icon,
-                    },
-                }}
-                MenuProps={menuProps}
-            >
-                {movies}
-            </Select>
-        </FormControl>
+        <>
+            {!!movies.length ? (
+                <FormControl className={classes.formControl}>
+                    <InputLabel shrink={false} className={classes.inputLabel}>Last visited</InputLabel>
+                    <Select
+                        disableUnderline
+                        onChange={handleChange}
+                        value=''
+                        inputProps={{
+                            classes: {
+                                root: classes.select,
+                                icon: classes.icon,
+                            },
+                        }}
+                        MenuProps={menuProps}
+                    >
+                        {movies}
+                    </Select>
+                </FormControl>
+            ) : null}
+        </>
     )
 }
 
