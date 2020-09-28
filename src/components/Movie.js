@@ -12,8 +12,8 @@ const Movie = ({store: {movie, isLoading}}) => {
                 <CircularProgress style={{color: '#878787', marginTop: 200}}/>
             ) : movie ? (
                 <>
-                    <Arrow direction='previous' top={400}/>
-                    {/*<ReactPlayer style={{margin: 'auto'}} url='https://www.youtube.com/watch?v=T6DJcgm3wNY' />*/}
+                    <Arrow direction='previous' top={300}/>
+                    <ReactPlayer style={{margin: 'auto'}} url='https://www.youtube.com/watch?v=T6DJcgm3wNY' />
                     <div className="movie">
                         <div className='movie-block'>
                             <img
