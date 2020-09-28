@@ -1,4 +1,4 @@
-import {observable, action, decorate} from "mobx";
+import {observable, action, decorate, reaction} from "mobx";
 
 
 class Store {
@@ -28,10 +28,6 @@ class Store {
         }
         this.search = search;
         localStorage.setItem('search', search);
-        if (search) {
-            this.moviesNumber = 0;
-            this.getMovies()
-        }
     }
 
     setPage = (page) => {
@@ -43,9 +39,6 @@ class Store {
     setId = (id) => {
         this.id = id;
         localStorage.setItem('id', id);
-        if (id) {
-            this.getMovie(id)
-        }
     }
 
     setActiveMovie = (id) => {
@@ -56,9 +49,9 @@ class Store {
         localStorage.setItem('activeId', id);
     }
 
-    getMovie = id => {
+    getMovie = () => {
         this.isLoading = true;
-        fetch(`http://www.omdbapi.com/?apikey=8b47da7b&i=${id}`)
+        fetch(`http://www.omdbapi.com/?apikey=8b47da7b&i=${this.id}`)
             .then(response => response.json())
             .then(data => {
                 this.movie = data;
@@ -76,6 +69,7 @@ class Store {
 
     getMovies = () => {
         this.isLoading = true;
+        this.moviesNumber = 0;
         fetch(`http://www.omdbapi.com/?apikey=8b47da7b&s=${this.search}&page=${this.page}`)
             .then(response => response.json())
             .then(data => {
@@ -108,4 +102,19 @@ decorate(Store, {
     setId: action,
     setActiveMovie: action,
 });
-export default new Store();
+
+const store = new Store();
+
+export default store;
+
+reaction(() => store.search, search => {
+    if (search) {
+        store.getMovies()
+    }
+})
+
+reaction(() => store.id, id => {
+    if (id) {
+        store.getMovie()
+    }
+})

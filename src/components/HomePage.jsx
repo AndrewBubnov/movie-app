@@ -42,7 +42,9 @@ const HomePage = ({store: {setSearchString}}) => {
 
     const handleSearchPress = () => {
         setSearchString(search);
-        push(`/list`);
+        if (search) {
+            push(`/list`)
+        }
     }
 
     const handleKeyUp = (e) => {
