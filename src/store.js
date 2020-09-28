@@ -107,14 +107,6 @@ const store = new Store();
 
 export default store;
 
-reaction(() => store.search, search => {
-    if (search) {
-        store.getMovies()
-    }
-})
+reaction(() => store.search, search => search && store.getMovies())
 
-reaction(() => store.id, id => {
-    if (id) {
-        store.getMovie()
-    }
-})
+reaction(() => store.id, id => id && store.getMovie())

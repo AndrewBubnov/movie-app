@@ -4,6 +4,7 @@
   align-items: center;
   height: 950px;
   margin-bottom: 10px;
+  user-select: none;
 
   & .list-item {
     display: flex;
