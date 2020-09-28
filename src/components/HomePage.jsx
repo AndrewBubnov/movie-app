@@ -9,6 +9,7 @@ import {debounce} from "lodash";
 import List from "./List";
 import Arrow from "./Arrow";
 import mainPoster from '../assets/img/main_poster.jpg'
+import Visited from "./Visited";
 
 
 const HomePage = ({store: {setSearchString}}) => {
@@ -57,7 +58,8 @@ const HomePage = ({store: {setSearchString}}) => {
     return (
         <div className="App">
             <img src={mainPoster} className='main-poster' alt=""/>
-                <Arrow direction='next' top={400}/>
+            <Visited />
+            <Arrow direction='next' top={400}/>
             <div className="hero-block">
                 <p className="main-title">Explore movies & series</p>
                 <TextField
@@ -89,7 +91,7 @@ const HomePage = ({store: {setSearchString}}) => {
                 />
                 <p className='life-search-title'>{liveSearchAnnounce}</p>
                 {isLiveSearchActive && (
-                        <List/>
+                    <List/>
                 )}
             </div>
         </div>

@@ -19,6 +19,7 @@ class Store {
     id = localStorage.getItem('id') || null;
     error = '';
     isLoading = false;
+    visited = [];
 
     setSearchString = (search) => {
         if (search !== localStorage.getItem('search')) {
@@ -55,18 +56,24 @@ class Store {
         localStorage.setItem('activeId', id);
     }
 
-    getMovie = async id => {
+    getMovie = id => {
         this.isLoading = true;
         fetch(`http://www.omdbapi.com/?apikey=8b47da7b&i=${id}`)
             .then(response => response.json())
             .then(data => {
                 this.movie = data;
-                this.isLoading = false
+                this.isLoading = false;
+                this.visited = this.visited.find(item => item.id === this.id) ?
+                    this.visited
+                    : [{id: this.id, title: data.Title}, ...this.visited];
+                if (this.visited.length > 10) {
+                    this.visited = this.visited.slice(0, this.visited.length - 1)
+                }
             })
             .catch(error => this.error = error)
     }
 
-    getMovies = async () => {
+    getMovies = () => {
         this.isLoading = true;
         fetch(`http://www.omdbapi.com/?apikey=8b47da7b&s=${this.search}&page=${this.page}`)
             .then(response => response.json())
@@ -94,6 +101,7 @@ decorate(Store, {
     moviesNumber: observable,
     page: observable,
     isLoading: observable,
+    visited: observable,
     setSearchString: action,
     setPage: action,
     setId: action,
