@@ -19,7 +19,7 @@ class Store {
     id = localStorage.getItem('id') || null;
     error = '';
     isLoading = false;
-    visited = [];
+    visited = JSON.parse(localStorage.getItem('visited')) || [];
 
     setSearchString = (search) => {
         if (search !== localStorage.getItem('search')) {
@@ -69,6 +69,7 @@ class Store {
                 if (this.visited.length > 10) {
                     this.visited = this.visited.slice(0, this.visited.length - 1)
                 }
+                localStorage.setItem('visited', JSON.stringify(this.visited))
             })
             .catch(error => this.error = error)
     }
