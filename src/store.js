@@ -1,4 +1,4 @@
-import {observable, action, decorate, reaction} from "mobx";
+import {observable, action, decorate, reaction, toJS} from "mobx";
 
 
 class Store {
@@ -56,9 +56,8 @@ class Store {
             .then(data => {
                 this.movie = data;
                 this.isLoading = false;
-                this.visited = this.visited.find(item => item.id === this.id) ?
-                    this.visited
-                    : [{id: this.id, title: data.Title}, ...this.visited];
+                this.visited = this.visited.filter(item => item.id !== this.id);
+                this.visited = [{id: this.id, title: data.Title}, ...this.visited];
                 if (this.visited.length > 10) {
                     this.visited = this.visited.slice(0, this.visited.length - 1)
                 }
