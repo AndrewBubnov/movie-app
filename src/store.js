@@ -24,6 +24,7 @@ class Store {
     setSearchString = (search) => {
         if (search !== localStorage.getItem('search')) {
             this.page = 1;
+            this.moviesNumber = 0;
             localStorage.setItem('page', '1');
         }
         this.search = search;
@@ -71,7 +72,6 @@ class Store {
 
     getMovies = () => {
         this.isLoading = true;
-        this.moviesNumber = 0;
         fetch(`http://www.omdbapi.com/?apikey=8b47da7b&s=${this.search}&page=${this.page}`)
             .then(response => response.json())
             .then(data => {

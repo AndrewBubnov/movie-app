@@ -85,9 +85,6 @@ const Search = ({store: {setSearchString}}) => {
                 }}
             />
             <p className='life-search-title'>{liveSearchAnnounce}</p>
-            {isLiveSearchActive && (
-                <List/>
-            )}
         </>
     )
 }
