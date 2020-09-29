@@ -33,7 +33,6 @@ class Store {
     setPage = (page) => {
         this.page = page;
         localStorage.setItem('page', page);
-        this.getMovies();
     }
 
     setId = (id) => {
@@ -47,6 +46,10 @@ class Store {
             isActive: movie.imdbID === id,
         }));
         localStorage.setItem('activeId', id);
+    }
+
+    setPageIncrement = () => {
+        this.page = this.page + 1;
     }
 
     getMovie = () => {
@@ -76,7 +79,10 @@ class Store {
                     this.error = '';
                     this.moviesNumber = data.totalResults;
                     const activeId = localStorage.getItem('activeId');
-                    this.movies = data.Search.map(item => ({...item, isActive: item.imdbID === activeId}));
+                    this.movies = [
+                        ...this.movies,
+                        ...data.Search.map(item => ({...item, isActive: item.imdbID === activeId}))
+                    ];
                 } else {
                     this.error = data.Error;
                 }
@@ -100,6 +106,7 @@ decorate(Store, {
     setPage: action,
     setId: action,
     setActiveMovie: action,
+    setPageIncrement: action,
 });
 
 const store = new Store();
@@ -108,4 +115,8 @@ export default store;
 
 reaction(() => store.search, search => search && store.getMovies())
 
+reaction(() => store.page, page => page && store.getMovies())
+
 reaction(() => store.id, id => id && store.getMovie())
+
+
