@@ -19,10 +19,13 @@ class Store {
     id = localStorage.getItem('id') || null;
     error = '';
     isLoading = false;
+    isInfinite = true;
     visited = JSON.parse(localStorage.getItem('visited')) || [];
 
     setSearchString = (search) => {
         if (search !== localStorage.getItem('search')) {
+            this.search = '';
+            this.movies = [];
             this.page = 1;
             this.moviesNumber = 0;
             localStorage.setItem('page', '1');
@@ -32,6 +35,7 @@ class Store {
     }
 
     setPage = (page) => {
+        this.isInfinite = false;
         this.page = page;
         localStorage.setItem('page', page);
     }
@@ -51,6 +55,7 @@ class Store {
 
     setPageIncrement = () => {
         this.page = this.page + 1;
+        this.isInfinite = true;
     }
 
     getMovie = () => {
@@ -79,10 +84,10 @@ class Store {
                     this.error = '';
                     this.moviesNumber = data.totalResults;
                     const activeId = localStorage.getItem('activeId');
-                    this.movies = [
+                    this.movies = this.isInfinite ? [
                         ...this.movies,
-                        ...data.Search.map(item => ({...item, isActive: item.imdbID === activeId}))
-                    ];
+                        ...data.Search.map(item => ({...item, isActive: item.imdbID === activeId}))]
+                    : data.Search.map(item => ({...item, isActive: item.imdbID === activeId}));
                 } else {
                     this.error = data.Error;
                 }
