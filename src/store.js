@@ -86,9 +86,10 @@ class Store {
                     this.moviesNumber = data.totalResults;
                     const activeId = localStorage.getItem('activeId');
                     this.movies = this.isInfinite ? [
-                        ...this.movies,
-                        ...data.Search.map(item => ({...item, isActive: item.imdbID === activeId}))]
-                    : data.Search.map(item => ({...item, isActive: item.imdbID === activeId}));
+                            ...this.movies,
+                            ...data.Search.map(item => ({...item, isActive: item.imdbID === activeId}))
+                        ]
+                        : data.Search.map(item => ({...item, isActive: item.imdbID === activeId}));
                 } else {
                     this.error = data.Error;
                 }
