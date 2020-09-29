@@ -19,21 +19,26 @@ class Store {
     id = localStorage.getItem('id') || null;
     error = '';
     isLoading = false;
+    isInfinite = true;
     visited = JSON.parse(localStorage.getItem('visited')) || [];
 
     setSearchString = (search) => {
         if (search !== localStorage.getItem('search')) {
+            this.search = '';
+            this.movies = [];
             this.page = 1;
-            localStorage.setItem('page', '1');
             this.moviesNumber = 0;
+            localStorage.setItem('page', '1');
         }
         this.search = search;
         localStorage.setItem('search', search);
     }
 
     setPage = (page) => {
+        this.isInfinite = false;
         this.page = page;
         localStorage.setItem('page', page);
+        this.getMovies();
     }
 
     setId = (id) => {
@@ -47,6 +52,11 @@ class Store {
             isActive: movie.imdbID === id,
         }));
         localStorage.setItem('activeId', id);
+    }
+
+    setPageIncrement = () => {
+        this.page = this.page + 1;
+        this.isInfinite = true;
     }
 
     getMovie = () => {
@@ -75,7 +85,10 @@ class Store {
                     this.error = '';
                     this.moviesNumber = data.totalResults;
                     const activeId = localStorage.getItem('activeId');
-                    this.movies = data.Search.map(item => ({...item, isActive: item.imdbID === activeId}));
+                    this.movies = this.isInfinite ? [
+                        ...this.movies,
+                        ...data.Search.map(item => ({...item, isActive: item.imdbID === activeId}))]
+                    : data.Search.map(item => ({...item, isActive: item.imdbID === activeId}));
                 } else {
                     this.error = data.Error;
                 }
@@ -99,6 +112,7 @@ decorate(Store, {
     setPage: action,
     setId: action,
     setActiveMovie: action,
+    setPageIncrement: action,
 });
 
 const store = new Store();

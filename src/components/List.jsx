@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useCallback } from 'react';
 import {inject, observer} from "mobx-react";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {useHistory} from 'react-router-dom';
@@ -14,7 +14,8 @@ const List = ({
                       setPage,
                       moviesNumber,
                       isLoading,
-                      setId
+                      setId,
+                      setPageIncrement,
                   }
               }) => {
 
@@ -33,21 +34,53 @@ const List = ({
         setPage(value);
     };
 
+    const observer = useRef();
+
+    const lastMovieRef = useCallback(node => {
+        if (isLoading) return
+        if (observer.current) observer.current.disconnect()
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && page < Math.ceil(moviesNumber /10)) {
+                setPageIncrement()
+            }
+        })
+        if (node) observer.current.observe(node)
+    }, [isLoading])
+
+
     const moviesList = movies
-        .map(item => (
-            <div
-                className='list-item'
-                key={item.imdbID}
-                onClick={() => handleClick(item)}
-                style={{color: item.isActive ? '#fff' : '#878787'}}
-            >
-                <div className='list-item-title'>{item.Title}</div>
-                <div className='list-item-details-wrapper'>
-                    <div>{item.Year}</div>
-                    <div>{item.Type}</div>
+        .map((item, index) => {
+            if (index === movies.length - 1) {
+                return (
+                    <div
+                        className='list-item'
+                        ref={lastMovieRef}
+                        key={item.imdbID}
+                        onClick={() => handleClick(item)}
+                        style={{color: item.isActive ? '#fff' : '#878787'}}
+                    >
+                        <div className='list-item-title'>{item.Title}</div>
+                        <div className='list-item-details-wrapper'>
+                            <div>{item.Year}</div>
+                            <div>{item.Type}</div>
+                        </div>
+                    </div>
+                )
+            }
+            return (
+                <div
+                    className='list-item'
+                    key={item.imdbID}
+                    onClick={() => handleClick(item)}
+                    style={{color: item.isActive ? '#fff' : '#878787'}}
+                >
+                    <div className='list-item-title'>{item.Title}</div>
+                    <div className='list-item-details-wrapper'>
+                        <div>{item.Year}</div>
+                        <div>{item.Type}</div>
+                    </div>
                 </div>
-            </div>
-        ))
+            )})
 
 
     return (
