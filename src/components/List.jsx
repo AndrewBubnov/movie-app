@@ -45,7 +45,7 @@ const List = ({
             }
         })
         if (node) observer.current.observe(node)
-    }, [isLoading])
+    }, [isLoading, page, moviesNumber, setPageIncrement])
 
 
     const moviesList = movies
