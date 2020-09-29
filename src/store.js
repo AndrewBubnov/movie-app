@@ -25,6 +25,7 @@ class Store {
         if (search !== localStorage.getItem('search')) {
             this.page = 1;
             localStorage.setItem('page', '1');
+            this.moviesNumber = 0;
         }
         this.search = search;
         localStorage.setItem('search', search);
@@ -33,7 +34,6 @@ class Store {
     setPage = (page) => {
         this.page = page;
         localStorage.setItem('page', page);
-        this.getMovies();
     }
 
     setId = (id) => {
@@ -68,7 +68,6 @@ class Store {
 
     getMovies = () => {
         this.isLoading = true;
-        this.moviesNumber = 0;
         fetch(`http://www.omdbapi.com/?apikey=8b47da7b&s=${this.search}&page=${this.page}`)
             .then(response => response.json())
             .then(data => {
@@ -107,5 +106,7 @@ const store = new Store();
 export default store;
 
 reaction(() => store.search, search => search && store.getMovies())
+
+reaction(() => store.page, () => store.getMovies())
 
 reaction(() => store.id, id => id && store.getMovie())
