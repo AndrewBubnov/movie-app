@@ -6,13 +6,12 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import {debounce} from "lodash";
-import List from "./List";
 
 
-const Search = ({store: {setSearchString}}) => {
+
+const Search = ({store: {setSearchString, isLiveSearchActive, toggleIsLiveSearchActive}}) => {
     const [search, setSearch] = useState(localStorage.getItem('search') || '');
     const [mouseDownTime, setMouseDownTime] = useState(null);
-    const [isLiveSearchActive, setIsLiveSearchActive] = useState(false);
     const {push} = useHistory();
     const {pathname} = useLocation();
 
@@ -32,7 +31,7 @@ const Search = ({store: {setSearchString}}) => {
 
     const handleMouseUp = () => {
         if (Date.now() - mouseDownTime >= 300) {
-            setIsLiveSearchActive(prevState => !prevState);
+            toggleIsLiveSearchActive();
             setSearchString(search);
         }
         setMouseDownTime(null);
@@ -51,9 +50,9 @@ const Search = ({store: {setSearchString}}) => {
         }
     }
 
-    const liveSearchAnnounce = `long tap to activate/deactivate live search: ${isLiveSearchActive ?
-        'live search enabled'
-        : 'live search disabled'}`
+    const liveSearchAnnounce = `long tap to activate/deactivate instant search: ${isLiveSearchActive ?
+        'instant search enabled'
+        : 'instant search disabled'}`
 
     return (
         <>

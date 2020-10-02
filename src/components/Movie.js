@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {inject, observer} from "mobx-react";
 import CircularProgress from '@material-ui/core/CircularProgress';
-import ReactPlayer from "react-player"
 import Arrow from "./Arrow";
 
-const Movie = ({store: {movie, isLoading}}) => {
+const Movie = ({store: {movie, isLoading, setMovieId}}) => {
+
+    useEffect(setMovieId, []);
 
     return (
         <div className="App">
@@ -13,7 +14,6 @@ const Movie = ({store: {movie, isLoading}}) => {
             ) : movie ? (
                 <>
                     <Arrow direction='previous' top={300}/>
-                    <ReactPlayer style={{margin: 'auto'}} url='https://www.youtube.com/watch?v=T6DJcgm3wNY' />
                     <div className="movie">
                         <div className='movie-block'>
                             <img

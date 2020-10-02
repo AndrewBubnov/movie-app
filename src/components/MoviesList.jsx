@@ -2,7 +2,7 @@ import React from 'react';
 import List from "./List";
 import Arrow from "./Arrow";
 import mainPoster from "../assets/img/main_poster.jpg";
-import Search from "./Search";
+import LiveSearch from "./LiveSearch";
 
 
 const MoviesList = () => {
@@ -12,7 +12,7 @@ const MoviesList = () => {
             <Arrow direction='previous' top={400}/>
             <Arrow direction='next' top={400}/>
             <div className="hero-block movie-list">
-                <Search/>
+                <LiveSearch/>
                 <List/>
             </div>
         </div>

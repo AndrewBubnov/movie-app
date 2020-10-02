@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import {inject, observer} from "mobx-react";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {useHistory} from 'react-router-dom';
@@ -6,7 +6,8 @@ import CustomPagination from "./CustomPagination";
 
 const List = ({
                   store: {
-                      movies,
+                      filtered,
+                      filterString,
                       setActiveMovie,
                       error,
                       search,
@@ -16,8 +17,11 @@ const List = ({
                       isLoading,
                       setId,
                       setPageIncrement,
+                      setSearch,
                   }
               }) => {
+
+    useEffect(setSearch, []);
 
     const {push} = useHistory();
 
@@ -47,10 +51,9 @@ const List = ({
         if (node) observer.current.observe(node)
     }, [isLoading, page, moviesNumber, setPageIncrement])
 
-
-    const moviesList = movies
+    const moviesList = filtered
         .map((item, index) => {
-            if (index === movies.length - 1) {
+            if (index === filtered.length - 1 && !filterString) {
                 return (
                     <div
                         className='list-item'
