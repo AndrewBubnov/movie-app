@@ -92,7 +92,7 @@ class Store {
 
 
     getMovies = () => {
-        this.isLoading = true;
+        this.isLoading = !!!this.movies.length;
         fetch(`http://www.omdbapi.com/?apikey=8b47da7b&s=${this.search}&page=${this.page}`)
             .then(response => response.json())
             .then(data => {
@@ -109,7 +109,6 @@ class Store {
                     this.error = data.Error;
                 }
                 this.isLoading = false;
-                console.log(this.movies)
             })
             .catch(error => this.error = error)
     }
