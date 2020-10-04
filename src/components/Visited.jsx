@@ -5,7 +5,12 @@ import {makeStyles} from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
+import { withStyles, Theme } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip'
+import Typography from '@material-ui/core/Typography';
+import {toJS} from "mobx";
 
 
 const Visited = ({store: {visited, setId}}) => {
@@ -13,7 +18,19 @@ const Visited = ({store: {visited, setId}}) => {
     const {push} = useHistory();
 
     const movies = visited.map(item => (
-        <MenuItem key={item.id} value={item.id}>{item.title}</MenuItem>
+        <MenuItem
+            key={item.id}
+            value={item.id}
+        >
+            <CustomTooltip title={item.plot}>
+                <ListItemText
+                    disableTypography
+                    primary={
+                        <Typography>{item.title}</Typography>
+                    }
+                />
+            </CustomTooltip>
+        </MenuItem>
     ))
 
     const handleChange = (e) => {
@@ -47,6 +64,18 @@ const Visited = ({store: {visited, setId}}) => {
         </>
     )
 }
+
+const LightTooltip = withStyles((theme) => ({
+    tooltip: {
+        backgroundColor: theme.palette.common.white,
+        color: 'rgba(0, 0, 0, 0.87)',
+        boxShadow: theme.shadows[1],
+        fontSize: 11,
+    },
+}))(Tooltip);
+
+const CustomTooltip = ({ title, children }) =>
+    <LightTooltip title={title}>{children}</LightTooltip>;
 
 const useStyles = makeStyles((theme) => ({
     formControl: {

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useCallback } from 'react';
-import {inject, observer} from "mobx-react";
+import React, { useEffect, useRef } from 'react';
+import { inject, observer } from "mobx-react";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {useHistory} from 'react-router-dom';
 import CustomPagination from "./CustomPagination";
@@ -40,16 +40,16 @@ const List = ({
 
     const observer = useRef();
 
-    const lastMovieRef = useCallback(node => {
+    const lastMovieRef = node => {
         if (isLoading) return
         if (observer.current) observer.current.disconnect()
         observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && page < Math.ceil(moviesNumber /10)) {
+            if (entries[0].isIntersecting && page < Math.ceil(moviesNumber / 10)) {
                 setPageIncrement()
             }
         })
         if (node) observer.current.observe(node)
-    }, [isLoading, page, moviesNumber, setPageIncrement])
+    }
 
     const moviesList = filtered
         .map((item, index) => {
@@ -83,8 +83,8 @@ const List = ({
                         <div>{item.Type}</div>
                     </div>
                 </div>
-            )})
-
+            )
+        })
 
     return (
         <>
@@ -99,17 +99,18 @@ const List = ({
                     page={page}
                 />
             )}
-            <br />
+            <br/>
             <div className='list-wrapper'>
-                {isLoading ? (
-                    <CircularProgress style={{color: '#878787'}}/>
-                ) : error ? (
+                {error ? (
                     <div>{error}</div>
                 ) : (
                     <>
                         {moviesList}
                         <br/>
                     </>
+                )}
+                {isLoading && (
+                    <CircularProgress style={{color: '#878787'}}/>
                 )}
             </div>
         </>

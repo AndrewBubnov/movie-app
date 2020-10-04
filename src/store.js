@@ -48,7 +48,6 @@ class Store {
         this.isInfinite = false;
         this.page = page;
         localStorage.setItem('page', page);
-        this.getMovies();
     }
 
     setId = (id) => {
@@ -71,6 +70,7 @@ class Store {
     setPageIncrement = () => {
         this.page = this.page + 1;
         this.isInfinite = true;
+        localStorage.setItem('page', this.page);
     }
 
     getMovie = () => {
@@ -81,7 +81,7 @@ class Store {
                 this.movie = data;
                 this.isLoading = false;
                 this.visited = this.visited.filter(item => item.id !== this.id);
-                this.visited = [{id: this.id, title: data.Title}, ...this.visited];
+                this.visited = [{id: this.id, title: data.Title, plot: data.Plot}, ...this.visited];
                 if (this.visited.length > 10) {
                     this.visited = this.visited.slice(0, this.visited.length - 1)
                 }
@@ -92,7 +92,7 @@ class Store {
 
 
     getMovies = () => {
-        this.isLoading = !!!this.movies.length;
+        this.isLoading = true;
         fetch(`http://www.omdbapi.com/?apikey=8b47da7b&s=${this.search}&page=${this.page}`)
             .then(response => response.json())
             .then(data => {
