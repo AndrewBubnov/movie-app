@@ -7,7 +7,7 @@ import Search from "./Search";
 import List from "./List";
 
 
-const HomePage = ({store: {isLiveSearchActive}}) => {
+const HomePage = ({store: { isInstantSearchActive }}) => {
 
     return (
         <div className="App">
@@ -17,7 +17,7 @@ const HomePage = ({store: {isLiveSearchActive}}) => {
             <div className="hero-block">
                 <p className="main-title">Explore movies & series</p>
                 <Search/>
-                {isLiveSearchActive && (
+                {isInstantSearchActive && (
                     <List/>
                 )}
             </div>

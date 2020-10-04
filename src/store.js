@@ -12,7 +12,7 @@ class Store {
     search = blankSearch;
     id = {};
     error = '';
-    isLiveSearchActive = false;
+    isInstantSearchActive = false;
     isLoading = false;
     isInfinite = true;
     filterString = '';
@@ -25,7 +25,7 @@ class Store {
 
     setFilterString = (string) => this.filterString = string;
 
-    toggleIsLiveSearchActive = () => this.isLiveSearchActive = !this.isLiveSearchActive;
+    toggleInstantSearch = () => this.isInstantSearchActive = !this.isInstantSearchActive;
 
     get filtered() {
         return this.movies.filter(movie =>
@@ -44,6 +44,9 @@ class Store {
             this.moviesNumber = 0;
         }
         localStorage.setItem('search', JSON.stringify(search));
+        if (this.isInstantSearchActive) {
+            this.search = search;
+        }
     }
 
     setPage = (page) => {
@@ -128,7 +131,7 @@ decorate(Store, {
     error: observable,
     moviesNumber: observable,
     page: observable,
-    isLiveSearchActive: observable,
+    isInstantSearchActive: observable,
     isLoading: observable,
     visited: observable,
     filterString: observable,
@@ -138,7 +141,7 @@ decorate(Store, {
     setId: action,
     setActiveMovie: action,
     setPageIncrement: action,
-    toggleIsLiveSearchActive: action,
+    toggleInstantSearch: action,
     setMovieId: action,
     filtered: computed,
 });
