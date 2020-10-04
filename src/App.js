@@ -4,7 +4,6 @@ import HomePage from "./components/HomePage";
 import MoviesList from "./components/MoviesList";
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import Movie from "./components/Movie";
-// import './App.css';
 
 
 function App() {

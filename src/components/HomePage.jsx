@@ -8,6 +8,7 @@ import List from "./List";
 
 
 const HomePage = ({store: {isLiveSearchActive}}) => {
+
     return (
         <div className="App">
             <img src={mainPoster} className='main-poster' alt=""/>

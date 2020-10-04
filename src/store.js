@@ -1,17 +1,16 @@
 import { observable, action, decorate, reaction, computed } from "mobx";
 
+const blankSearch = {
+    text: '',
+    page: 1,
+}
 
 class Store {
     movies = [];
     movie = null;
     moviesNumber = 0;
-    search = {
-        text: '',
-        page: 1,
-    };
-    id = {
-        value: localStorage.getItem('id'),
-    };
+    search = blankSearch;
+    id = {};
     error = '';
     isLiveSearchActive = false;
     isLoading = false;

@@ -9,9 +9,7 @@ const Movie = ({store: {movie, isLoading, setMovieId}}) => {
 
     return (
         <div className="App">
-            {isLoading ? (
-                <CircularProgress style={{color: '#878787', marginTop: 200}}/>
-            ) : movie ? (
+            { movie ? (
                 <>
                     <Arrow direction='previous'/>
                     <div className="movie">
@@ -42,9 +40,8 @@ const Movie = ({store: {movie, isLoading, setMovieId}}) => {
                     </div>
                 </>
             ) : (
-                <div className='main-title'>Movie not found</div>
+                <CircularProgress style={{color: '#878787', marginTop: 200}}/>
             )}
-
         </div>
     )
 }
