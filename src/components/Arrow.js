@@ -10,7 +10,7 @@ const routes = {
     '2': '/movie',
 };
 
-const Arrow = ({store: {search, id}, direction, top}) => {
+const Arrow = ({store: { search }, direction}) => {
     const {pathname} = useLocation();
     const {push} = useHistory();
     const routeKey = Object.keys(routes).find(key => routes[key] === pathname);
@@ -29,11 +29,11 @@ const Arrow = ({store: {search, id}, direction, top}) => {
     return (
         <div onClick={handleClick}>
             {direction === 'next' ?
-                (pathname === routes[0] && search) || (pathname === routes[1] && id) ? (
-                    <img src={arrowNext} className='arrow next-arrow' style={{top}} alt=""/>
+                (pathname === routes[0] && search.text) || (pathname === routes[1] && localStorage.getItem('id')) ? (
+                    <img src={arrowNext} className='arrow next-arrow' alt=""/>
                 ) : null
                 : (
-                    <img src={arrowPrev} className='arrow previous-arrow' style={{top}} alt=""/>
+                    <img src={arrowPrev} className='arrow previous-arrow' alt=""/>
                 )}
         </div>
     )

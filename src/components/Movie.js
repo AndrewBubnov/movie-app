@@ -13,7 +13,7 @@ const Movie = ({store: {movie, isLoading, setMovieId}}) => {
                 <CircularProgress style={{color: '#878787', marginTop: 200}}/>
             ) : movie ? (
                 <>
-                    <Arrow direction='previous' top={300}/>
+                    <Arrow direction='previous'/>
                     <div className="movie">
                         <div className='movie-block'>
                             <img

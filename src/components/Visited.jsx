@@ -7,10 +7,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
-import { withStyles, Theme } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography';
-import {toJS} from "mobx";
 
 
 const Visited = ({store: {visited, setId}}) => {

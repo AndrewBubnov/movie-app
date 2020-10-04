@@ -4,10 +4,14 @@ import { observable, action, decorate, reaction, computed } from "mobx";
 class Store {
     movies = [];
     movie = null;
-    page = +localStorage.getItem('page') || 1;
     moviesNumber = 0;
-    search = '';
-    id = '';
+    search = {
+        text: '',
+        page: 1,
+    };
+    id = {
+        value: localStorage.getItem('id'),
+    };
     error = '';
     isLiveSearchActive = false;
     isLoading = false;
@@ -16,47 +20,46 @@ class Store {
     visited = JSON.parse(localStorage.getItem('visited')) || [];
 
     setSearch = () => {
-        this.setSearchString(localStorage.getItem('search'))
+        this.search = JSON.parse(localStorage.getItem('search'));
+        this.isInfinite = false;
     }
 
-    setFilterString = (string) => {
-        this.filterString = string;
-    }
+    setFilterString = (string) => this.filterString = string;
 
-    toggleIsLiveSearchActive = () => {
-        this.isLiveSearchActive = !this.isLiveSearchActive;
-    }
+    toggleIsLiveSearchActive = () => this.isLiveSearchActive = !this.isLiveSearchActive;
 
     get filtered() {
         return this.movies.filter(movie =>
             movie.Title.toLowerCase().includes(this.filterString.toLowerCase()))
     }
 
-    setSearchString = (search) => {
-        if (search !== localStorage.getItem('search')) {
-            this.search = '';
-            this.movies = [];
-            this.page = 1;
-            this.moviesNumber = 0;
-            localStorage.setItem('page', '1');
+    setSearchString = (searchString) => {
+        const savedSearchString = localStorage.getItem('search')
+            && localStorage.getItem('search').text;
+        const search = {
+            text: searchString,
+            page: searchString === savedSearchString ? this.search.page : 1
         }
-        this.search = search;
-        localStorage.setItem('search', search);
+        if (searchString !== savedSearchString) {
+            this.movies = [];
+            this.moviesNumber = 0;
+        }
+        localStorage.setItem('search', JSON.stringify(search));
     }
 
     setPage = (page) => {
         this.isInfinite = false;
-        this.page = page;
-        localStorage.setItem('page', page);
+        this.search = {
+            ...this.search,
+            page,
+        };
+        localStorage.setItem('search', JSON.stringify(this.search));
     }
 
-    setId = (id) => {
-        this.id = id;
-        localStorage.setItem('id', id);
-    }
+    setId = (id) => localStorage.setItem('id', JSON.stringify({value: id}));
 
     setMovieId = () => {
-        this.id = localStorage.getItem('id');
+        this.id = JSON.parse(localStorage.getItem('id'));
     }
 
     setActiveMovie = (id) => {
@@ -68,20 +71,23 @@ class Store {
     }
 
     setPageIncrement = () => {
-        this.page = this.page + 1;
+        this.search = {
+            ...this.search,
+            page: this.search.page + 1,
+        };
         this.isInfinite = true;
-        localStorage.setItem('page', this.page);
+        localStorage.setItem('search', JSON.stringify(this.search));
     }
 
     getMovie = () => {
         this.isLoading = true;
-        fetch(`http://www.omdbapi.com/?apikey=8b47da7b&i=${this.id}`)
+        fetch(`http://www.omdbapi.com/?apikey=8b47da7b&i=${this.id.value}`)
             .then(response => response.json())
             .then(data => {
                 this.movie = data;
                 this.isLoading = false;
-                this.visited = this.visited.filter(item => item.id !== this.id);
-                this.visited = [{id: this.id, title: data.Title, plot: data.Plot}, ...this.visited];
+                this.visited = this.visited.filter(item => item.id !== this.id.value);
+                this.visited = [{id: this.id.value, title: data.Title, plot: data.Plot}, ...this.visited];
                 if (this.visited.length > 10) {
                     this.visited = this.visited.slice(0, this.visited.length - 1)
                 }
@@ -93,7 +99,8 @@ class Store {
 
     getMovies = () => {
         this.isLoading = true;
-        fetch(`http://www.omdbapi.com/?apikey=8b47da7b&s=${this.search}&page=${this.page}`)
+        const {text, page} = this.search;
+        fetch(`http://www.omdbapi.com/?apikey=8b47da7b&s=${text}&page=${page}`)
             .then(response => response.json())
             .then(data => {
                 if (!data.Error) {
@@ -141,8 +148,6 @@ const store = new Store();
 
 export default store;
 
-reaction(() => store.search, search => search && store.getMovies())
+reaction(() => store.search, search => search.text && store.getMovies())
 
-reaction(() => store.page, () => store.getMovies())
-
-reaction(() => store.id, id => id && store.getMovie())
+reaction(() => store.id, id => id.value && store.getMovie())

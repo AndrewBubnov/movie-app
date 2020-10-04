@@ -11,7 +11,6 @@ const List = ({
                       setActiveMovie,
                       error,
                       search,
-                      page,
                       setPage,
                       moviesNumber,
                       isLoading,
@@ -24,6 +23,8 @@ const List = ({
     useEffect(setSearch, []);
 
     const {push} = useHistory();
+
+    const {text, page} = search;
 
     const handleClick = (item) => {
         if (item.isActive) {
@@ -89,7 +90,7 @@ const List = ({
     return (
         <>
             {!!moviesNumber && (
-                <div>{`${moviesNumber} results found for «${search}» response:`}</div>
+                <div>{`${moviesNumber} results found for «${text}» response:`}</div>
             )}
             <br/>
             {moviesNumber > 10 && (

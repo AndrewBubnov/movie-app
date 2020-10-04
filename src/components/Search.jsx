@@ -10,7 +10,9 @@ import {debounce} from "lodash";
 
 
 const Search = ({store: {setSearchString, isLiveSearchActive, toggleIsLiveSearchActive}}) => {
-    const [search, setSearch] = useState(localStorage.getItem('search') || '');
+    const text = JSON.parse(localStorage.getItem('search'))
+        && JSON.parse(localStorage.getItem('search')).text;
+    const [search, setSearch] = useState(text || '');
     const [mouseDownTime, setMouseDownTime] = useState(null);
     const {push} = useHistory();
     const {pathname} = useLocation();

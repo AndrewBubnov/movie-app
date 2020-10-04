@@ -12,7 +12,7 @@ const HomePage = ({store: {isLiveSearchActive}}) => {
         <div className="App">
             <img src={mainPoster} className='main-poster' alt=""/>
             <Visited/>
-            <Arrow direction='next' top={400}/>
+            <Arrow direction='next'/>
             <div className="hero-block">
                 <p className="main-title">Explore movies & series</p>
                 <Search/>

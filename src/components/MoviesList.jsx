@@ -9,8 +9,8 @@ const MoviesList = () => {
     return (
         <div className="App">
             <img src={mainPoster} className='main-poster' alt=""/>
-            <Arrow direction='previous' top={400}/>
-            <Arrow direction='next' top={400}/>
+            <Arrow direction='previous' />
+            <Arrow direction='next' />
             <div className="hero-block movie-list">
                 <LiveSearch/>
                 <List/>
