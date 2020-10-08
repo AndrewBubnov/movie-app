@@ -25,11 +25,14 @@ const Arrow = ({direction}) => {
         }
     }
 
+    const search = JSON.parse(localStorage.getItem('search'));
+    const id = JSON.parse(localStorage.getItem('id'));
+
     return (
         <div onClick={handleClick}>
             {direction === 'next' ?
-                (pathname === routes[0] && JSON.parse(localStorage.getItem('search')).text)
-                || (pathname === routes[1] && JSON.parse(localStorage.getItem('id')).value) ?
+                (pathname === routes[0] && search && search.text)
+                || (pathname === routes[1] && id && id.value) ?
                     (
                         <img src={arrowNext} className='arrow next-arrow' alt=""/>
                     ) : null
