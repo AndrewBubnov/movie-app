@@ -3,7 +3,7 @@ import {inject, observer} from "mobx-react";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Arrow from "./Arrow";
 
-const Movie = ({store: {movie, isLoading, setMovieId}}) => {
+const Movie = ({store: {movie, setMovieId}}) => {
 
     useEffect(setMovieId, []);
 
