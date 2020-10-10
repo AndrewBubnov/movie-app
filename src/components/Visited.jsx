@@ -35,14 +35,9 @@ const Visited = ({store: {visited, setId, removeVisited}}) => {
                         primary={
                             <Typography>
                                 <span className='flex-container'>
-                                    <span>
-                                        {item.title}
-                                    </span>
+                                    <span>{item.title}</span>
                                     <span className='movie-type'>
-                                        <span>
-                                            <span>{item.type}</span>
-                                            <span>{item.year}</span>
-                                        </span>
+                                            {item.type} {item.year}
                                     </span>
                                 </span>
                             </Typography>

@@ -1,5 +1,6 @@
-import {flow, onPatch, types} from "mobx-state-tree";
+import {flow, types} from "mobx-state-tree";
 import {Movie, Id, Search, Visited} from './models'
+import {autorun} from "mobx";
 
 const MOVIES_ARRAY_URL = 'http://www.omdbapi.com/?apikey=8b47da7b&s=#text#&page=#page#';
 const MOVIE_URL = 'http://www.omdbapi.com/?apikey=8b47da7b&i=#value#';
@@ -26,14 +27,8 @@ const MainStore = types.model({
 })
     .actions(self => ({
         afterCreate() {
-            onPatch(self, patch => {
-                if (patch.path.includes('/search')) {
-                    self.getMovies()
-                }
-                if (patch.path.includes('/movieId')) {
-                    self.getMovie()
-                }
-            })
+            autorun(() => self.search.text && self.search.page && self.getMovies())
+            autorun(() => self.movieId.value && self.getMovie())
         },
         setSearchString(searchString) {
             const savedSearchString = localStorage.getItem('search')
