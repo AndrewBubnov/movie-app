@@ -7,14 +7,21 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography';
+import ClearIcon from '@material-ui/icons/Clear';
 
 
-const Visited = ({store: {visited, setId}}) => {
+
+const Visited = ({store: {visited, setId, removeVisited}}) => {
 
     const {push} = useHistory();
+
+    const handleDelete = (e, id) => {
+        e.stopPropagation()
+        removeVisited(id)
+    }
 
     const movies = visited.map(item => (
         <MenuItem
@@ -22,12 +29,29 @@ const Visited = ({store: {visited, setId}}) => {
             value={item.id}
         >
             <CustomTooltip title={item.plot}>
-                <ListItemText
-                    disableTypography
-                    primary={
-                        <Typography>{item.title}</Typography>
-                    }
-                />
+                <div className='flex-container'>
+                    <ListItemText
+                        disableTypography
+                        primary={
+                            <Typography>
+                                <div className='flex-container'>
+                                    <div>
+                                        {item.title}
+                                    </div>
+                                    <div className='movie-type'>
+                                        <div>
+                                            <div>{item.type}</div>
+                                            <div>{item.year}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Typography>
+                        }
+                    />
+                    <ClearIcon
+                        style={style}
+                        onClick={(e) => handleDelete(e, item.id)}/>
+                </div>
             </CustomTooltip>
         </MenuItem>
     ))
@@ -73,7 +97,7 @@ const LightTooltip = withStyles((theme) => ({
     },
 }))(Tooltip);
 
-const CustomTooltip = ({ title, children }) =>
+const CustomTooltip = ({title, children}) =>
     <LightTooltip title={title}>{children}</LightTooltip>;
 
 const useStyles = makeStyles((theme) => ({
@@ -98,6 +122,12 @@ const useStyles = makeStyles((theme) => ({
         fill: '#fff',
     },
 }));
+
+const style = {
+    height: 15,
+    marginLeft: 30,
+    color: 'steelblue',
+}
 
 const menuProps = {
     anchorOrigin: {

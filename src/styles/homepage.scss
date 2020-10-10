@@ -28,3 +28,16 @@
 .life-search-title {
   font-size: 18px;
 }
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.movie-type {
+  font-size: .7rem;
+  line-height: .9rem;
+  margin-left: 20px;
+}

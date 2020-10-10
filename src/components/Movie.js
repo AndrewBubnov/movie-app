@@ -6,6 +6,7 @@ import Arrow from "./Arrow";
 const Movie = ({store: {movie, setMovieId}}) => {
 
     useEffect(setMovieId, []);
+        console.log(movie)
 
     return (
         <div className="App">

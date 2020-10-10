@@ -3,6 +3,8 @@ import {types} from "mobx-state-tree";
 export const Movie = types.model({
     imdbID: types.identifier,
     Title: types.optional(types.string, ''),
+    Poster: types.optional(types.string, ''),
+    Type: types.optional(types.string, ''),
     Plot: types.optional(types.string, ''),
     imdbRating: types.optional(types.string, ''),
     Year: types.optional(types.string, ''),

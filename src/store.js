@@ -1,5 +1,6 @@
 import { onPatch, types} from "mobx-state-tree";
 import { Movie, Id, Search, Visited } from './models'
+import {toJS} from "mobx";
 
 const MOVIES_ARRAY_URL = 'http://www.omdbapi.com/?apikey=8b47da7b&s=#text#&page=#page#';
 const MOVIE_URL = 'http://www.omdbapi.com/?apikey=8b47da7b&i=#value#';
@@ -94,20 +95,45 @@ const MainStore = types.model({
               self.movie = movie;
             },
             setVisited(data) {
+                const {Title, Type, Year} = data;
                 let {movieId: {value}} = self;
                 self.visited = self.visited.filter(item => item.id !== value);
-                self.visited = [{id: value, title: data.Title, plot: data.Plot}, ...self.visited];
+                self.visited = [
+                    {
+                        id: value,
+                        title: Title,
+                        type: Type,
+                        year: Year,
+                        plot: data.Plot
+                    },
+                    ...self.visited
+                ];
                 if (self.visited.length > 10) {
                     self.visited = self.visited.slice(0, self.visited.length - 1)
                 }
                 localStorage.setItem('visited', JSON.stringify(self.visited));
             },
+            removeVisited(id) {
+                const newVisited = self.visited.filter(item => item.id !== id)
+                self.visited = newVisited;
+                localStorage.setItem('visited', JSON.stringify(newVisited));
+            },
+            toggleInstantSearch() {
+                self.isInstantSearchActive = !self.isInstantSearchActive;
+            },
+            setFilterString(filterString) {
+                self.filterString = filterString;
+            }
         }
     ))
     .views(self => ({
         get filtered() {
-            return self.movies.filter(movie =>
-                movie.Title.toLowerCase().includes(self.filterString.toLowerCase()))
+            const filterString = self.filterString.toLowerCase()
+            return itemTypes.includes(filterString) ?
+                self.movies.filter(movie => movie.Type === filterString)
+                : self.movies.filter(movie => {
+                return movie.Title.toLowerCase().includes(filterString)
+            })
         },
     }))
 
@@ -159,3 +185,5 @@ const getMovie = () => {
         })
         .catch(error => store.setError(error))
 }
+
+const itemTypes = ['movie', 'series', 'game'];
