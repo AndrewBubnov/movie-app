@@ -34,17 +34,17 @@ const Visited = ({store: {visited, setId, removeVisited}}) => {
                         disableTypography
                         primary={
                             <Typography>
-                                <div className='flex-container'>
-                                    <div>
+                                <span className='flex-container'>
+                                    <span>
                                         {item.title}
-                                    </div>
-                                    <div className='movie-type'>
-                                        <div>
-                                            <div>{item.type}</div>
-                                            <div>{item.year}</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                    </span>
+                                    <span className='movie-type'>
+                                        <span>
+                                            <span>{item.type}</span>
+                                            <span>{item.year}</span>
+                                        </span>
+                                    </span>
+                                </span>
                             </Typography>
                         }
                     />
@@ -125,7 +125,7 @@ const useStyles = makeStyles((theme) => ({
 
 const style = {
     height: 15,
-    marginLeft: 30,
+    marginLeft: 5,
     color: 'steelblue',
 }
 
