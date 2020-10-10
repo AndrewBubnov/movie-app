@@ -25,6 +25,16 @@ const MainStore = types.model({
         JSON.parse(localStorage.getItem('visited')) || []),
 })
     .actions(self => ({
+        afterCreate() {
+            onPatch(self, patch => {
+                if (patch.path.includes('/search')) {
+                    self.getMovies()
+                }
+                if (patch.path.includes('/movieId')) {
+                    self.getMovie()
+                }
+            })
+        },
         setSearchString(searchString) {
             const savedSearchString = localStorage.getItem('search')
                 && localStorage.getItem('search').text;
@@ -158,14 +168,5 @@ const MainStore = types.model({
 const store = MainStore.create();
 
 export default store;
-
-onPatch(store, patch => {
-    if (patch.path.includes('/search')) {
-        store.getMovies()
-    }
-    if (patch.path.includes('/movieId')) {
-        store.getMovie()
-    }
-})
 
 const itemTypes = ['movie', 'series', 'game'];
