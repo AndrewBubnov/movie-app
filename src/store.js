@@ -86,7 +86,7 @@ const MainStore = types.model({
             self.filterString = filterString;
         },
         getMovies: flow(function* getMovies() {
-            const {search: {text, page}} = store;
+            const {search: {text, page}} = self;
             const url = MOVIES_ARRAY_URL
                 .replace('#text#', text)
                 .replace('#page#', page);
@@ -113,7 +113,7 @@ const MainStore = types.model({
             }
         }),
         getMovie: flow(function* getMovie() {
-            const {movieId: {value}, setMovie, setIsLoading, setVisited} = store;
+            const {movieId: {value}} = self;
             const url = MOVIE_URL.replace('#value#', value);
             self.isLoading = true;
             try {
