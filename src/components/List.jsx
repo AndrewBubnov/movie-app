@@ -27,12 +27,8 @@ const List = ({
     const {text, page} = search;
 
     const handleClick = (item) => {
-        if (item.isActive) {
             setId(item.imdbID);
             push(`/movie`);
-        } else {
-            setActiveMovie(item.imdbID)
-        }
     }
 
     const handleChangePage = (_, value) => {
@@ -61,6 +57,7 @@ const List = ({
                         ref={lastMovieRef}
                         key={item.imdbID}
                         onClick={() => handleClick(item)}
+                        onMouseOver={() => setActiveMovie(item.imdbID)}
                         style={{color: item.isActive ? '#fff' : '#878787'}}
                     >
                         <div className='list-item-title'>{item.Title}</div>
@@ -76,6 +73,7 @@ const List = ({
                     className='list-item'
                     key={item.imdbID}
                     onClick={() => handleClick(item)}
+                    onMouseOver={() => setActiveMovie(item.imdbID)}
                     style={{color: item.isActive ? '#fff' : '#878787'}}
                 >
                     <div className='list-item-title'>{item.Title}</div>
