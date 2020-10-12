@@ -99,18 +99,17 @@ const MainStore = types.model({
             try {
                 const response = yield fetch(url);
                 const data = yield response.json();
-                if (!data.Error) {
-                    const activeId = localStorage.getItem('activeId');
-                    self.error = '';
-                    self.moviesNumber = +data.totalResults;
-                    self.movies = self.isInfinite ? [
-                            ...self.movies,
-                            ...data.Search.map(item => ({...item, isActive: item.imdbID === activeId}))
-                        ]
-                        : data.Search.map(item => ({...item, isActive: item.imdbID === activeId}));
-                } else {
-                    self.error = data.Error;
+                if (data.Error) {
+                    return self.error = data.Error;
                 }
+                const activeId = localStorage.getItem('activeId');
+                self.error = '';
+                self.moviesNumber = +data.totalResults;
+                self.movies = self.isInfinite ? [
+                        ...self.movies,
+                        ...data.Search.map(item => ({...item, isActive: item.imdbID === activeId}))
+                    ]
+                    : data.Search.map(item => ({...item, isActive: item.imdbID === activeId}));
             } catch (error) {
                 self.error = error;
             } finally {
@@ -149,16 +148,16 @@ const MainStore = types.model({
             }
         })
     }))
-        .views(self => ({
-            get filtered() {
-                const filterString = self.filterString.toLowerCase()
-                return itemTypes.includes(filterString) ?
-                    self.movies.filter(movie => movie.Type === filterString)
-                    : self.movies.filter(movie => {
-                        return movie.Title.toLowerCase().includes(filterString)
-                    })
-            },
-        }))
+    .views(self => ({
+        get filtered() {
+            const filterString = self.filterString.toLowerCase()
+            return itemTypes.includes(filterString) ?
+                self.movies.filter(movie => movie.Type === filterString)
+                : self.movies.filter(movie => {
+                    return movie.Title.toLowerCase().includes(filterString)
+                })
+        },
+    }))
 
 const store = MainStore.create();
 
